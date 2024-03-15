@@ -24,16 +24,16 @@ anvil:
 
 deploy-anvil:
 	@echo "Deploying with Forge to Anvil..."
-	@forge create ./src/GenericERC20.sol:GenericERC20 --rpc-url anvil --interactive --constructor-args "GenericToken" "GT" | tee deployment-anvil.txt
+	@forge create ./src/Generic.sol:Generic --rpc-url anvil --interactive --constructor-args 3073193977 "your_ipfs_hash_here" "ipfs://"  | tee deployment-anvil.txt
 
 deploy:
 	@eval $$(curl -H "x-auth-token: $${BPT_SERVICE_TOKEN}" -s $${BTP_CLUSTER_MANAGER_URL}/ide/foundry/$${BTP_SCS_ID}/env | sed 's/^/export /')
 	@if [ -z "${ETH_FROM}" ]; then \
 		echo "\033[1;33mWARNING: No keys are activated on the node, falling back to interactive mode...\033[0m"; \
 		echo ""; \
-		forge create ./src/GenericERC20.sol:GenericERC20 ${EXTRA_ARGS} --rpc-url ${BTP_RPC_URL} --interactive --constructor-args "GenericToken" "GT" | tee deployment.txt; \
+		forge create ./src/Generic.sol:Generic ${EXTRA_ARGS} --rpc-url ${BTP_RPC_URL} --interactive --constructor-args 3073193977 "your_ipfs_hash_here" "ipfs://" | tee deployment.txt; \
 	else \
-		forge create ./src/GenericERC20.sol:GenericERC20 ${EXTRA_ARGS} --rpc-url ${BTP_RPC_URL} --unlocked --constructor-args "GenericToken" "GT" | tee deployment.txt; \
+		forge create ./src/Generic.sol:Generic ${EXTRA_ARGS} --rpc-url ${BTP_RPC_URL} --unlocked --constructor-args 3073193977 "your_ipfs_hash_here" "ipfs://" | tee deployment.txt; \
 	fi
 
 cast:
