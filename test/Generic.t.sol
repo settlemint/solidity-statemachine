@@ -1,7 +1,9 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.24;
+
 import "forge-std/Test.sol";
 import "../src/Generic.sol";
 import "forge-std/console.sol";
-
 
 contract GenericTest is Test {
     Generic generic;
@@ -71,13 +73,7 @@ contract GenericTest is Test {
         bytes32 stateOne = 0x0000000000000000000000000000000000000000000000000000000000000001;
 
         // Get the state information
-        (
-            bytes32 name,
-            bytes32[] memory nextStates,
-            bytes32[] memory allowedRoles,
-            bytes4[] memory allowedFunctions,
-            bytes4 preFunction
-        ) = generic.getState(stateOne);
+        (, , bytes32[] memory allowedRoles, , ) = generic.getState(stateOne);
 
         // Transition the state from CHANGE_HERE_STATE_ONE to CHANGE_HERE_STATE_TWO
         bytes32 newState = 0x0000000000000000000000000000000000000000000000000000000000000002;
@@ -88,12 +84,7 @@ contract GenericTest is Test {
         assertEq(historyLength, 1, "Incorrect history length");
 
         // Fetch the history at index 0
-        (
-            bytes32 fromState,
-            bytes32 toState,
-            address actor,
-            uint256 timestamp
-        ) = generic.getHistory(0);
+        (bytes32 fromState, bytes32 toState, , ) = generic.getHistory(0);
 
         // Assert that the transition history contains the expected information
         assertEq(
@@ -104,7 +95,6 @@ contract GenericTest is Test {
         assertEq(toState, newState, "Incorrect to state in transition history");
     }
 
-
     function testCurrentState() public {
         bytes32 currentState = generic.getCurrentState();
         assertEq(
@@ -114,33 +104,26 @@ contract GenericTest is Test {
         );
     }
 
+    function testAllStates() public view {
+        bytes32[] memory allStates = generic.getAllStates();
+        bytes32[] memory expectedStates = new bytes32[](5);
+        expectedStates[0] = bytes32(uint256(1));
+        expectedStates[1] = bytes32(uint256(2));
+        expectedStates[2] = bytes32(uint256(3));
+        expectedStates[3] = bytes32(uint256(4));
+        expectedStates[4] = bytes32(uint256(5));
 
-function testAllStates() public {
-    bytes32[] memory allStates = generic.getAllStates();
-    bytes32[] memory expectedStates = new bytes32[](5);
-    expectedStates[0] = bytes32(uint256(1));
-    expectedStates[1] = bytes32(uint256(2));
-    expectedStates[2] = bytes32(uint256(3));
-    expectedStates[3] = bytes32(uint256(4));
-    expectedStates[4] = bytes32(uint256(5));
+        console.log("Actual states:");
+        for (uint256 i = 0; i < allStates.length; i++) {
+            console.logBytes32(allStates[i]);
+        }
 
-    console.log("Actual states:");
-    for (uint256 i = 0; i < allStates.length; i++) {
-        console.logBytes32(allStates[i]);
+        console.log("Expected states:");
+        for (uint256 i = 0; i < expectedStates.length; i++) {
+            console.logBytes32(expectedStates[i]);
+        }
+        // assertEq(allStates, expectedStates, "The possible states are not correct");
     }
 
-    console.log("Expected states:");
-    for (uint256 i = 0; i < expectedStates.length; i++) {
-        console.logBytes32(expectedStates[i]);
-    }
-    // assertEq(allStates, expectedStates, "The possible states are not correct");
+    //TO DO Complete rest of the tests + graph MW
 }
-
-
-//TO DO Complete rest of the tests + graph MW
-}
-
-
-
-    
-
