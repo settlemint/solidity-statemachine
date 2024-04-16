@@ -52,15 +52,15 @@ cast:
 subgraph:
 	@echo "Deploying the subgraph..."
 	@rm -Rf subgraph/subgraph.config.json
-	@DEPLOYED_ADDRESS=$$(grep "Deployed to:" deployment.txt | awk '{print $$3}') yq e -p=json -o=json '.datasources[0].address = env(DEPLOYED_ADDRESS) | .chain = env(BTP_NETWORK_NAME)' subgraph/subgraph.config.template.json > subgraph/subgraph.config.json
+	@DEPLOYED_ADDRESS=$$(grep "Deployed to:" deployment.txt | awk '{print $$3}') yq e -p=json -o=json '.datasources[0].address = env(DEPLOYED_ADDRESS)' subgraph/subgraph.config.template.json > subgraph/subgraph.config.json
 	@cd subgraph && pnpm graph-compiler --config subgraph.config.json --include node_modules/@openzeppelin/subgraphs/src/datasources subgraph/datasources --export-schema --export-subgraph
 	@cd subgraph && yq e '.specVersion = "0.0.4"' -i generated/solidity-token-erc20.subgraph.yaml
-	@cd subgraph && yq e '.description = "Solidity Token ERC20"' -i generated/solidity-token-erc20.subgraph.yaml
-	@cd subgraph && yq e '.repository = "https://github.com/settlemint/solidity-token-erc20"' -i generated/solidity-token-erc20.subgraph.yaml
+	@cd subgraph && yq e '.description = "Solidity Statemachine"' -i generated/solidity-statemachine.subgraph.yaml
+	@cd subgraph && yq e '.repository = "https://github.com/settlemint/solidity-statemachine"' -i generated/solidity-statemachine.subgraph.yaml
 	@cd subgraph && yq e '.indexerHints.prune = "auto"' -i generated/solidity-token-erc20.subgraph.yaml
-	@cd subgraph && yq e '.features = ["nonFatalErrors", "fullTextSearch", "ipfsOnEthereumContracts"]' -i generated/solidity-token-erc20.subgraph.yaml
-	@cd subgraph && pnpm graph codegen generated/solidity-token-erc20.subgraph.yaml
-	@cd subgraph && pnpm graph build generated/solidity-token-erc20.subgraph.yaml
+	@cd subgraph && yq e '.features = ["nonFatalErrors", "fullTextSearch", "ipfsOnEthereumContracts"]' -i generated/solidity-statemachine.subgraph.yaml
+	@cd subgraph && pnpm graph codegen generated/solidity-statemachine.subgraph.yaml
+	@cd subgraph && pnpm graph build generated/solidity-statemachine.subgraph.yaml
 	@eval $$(curl -H "x-auth-token: $${BTP_SERVICE_TOKEN}" -s $${BTP_CLUSTER_MANAGER_URL}/ide/foundry/$${BTP_SCS_ID}/env | sed 's/^/export /'); \
 	if [ "$${BTP_MIDDLEWARE}" == "" ]; then \
 		echo "You have not launched a graph middleware for this smart contract set, aborting..."; \

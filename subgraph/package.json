@@ -1,7 +1,7 @@
 {
-  "name": "solidity-token-erc20",
+  "name": "solidity-statemachine",
   "version": "7.0.0",
-  "description": "Solidity Token ERC20",
+  "description": "Solidity Statemachine",
   "scripts": {},
   "keywords": [
     "solidity",

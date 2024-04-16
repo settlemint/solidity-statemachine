@@ -1,12 +1,12 @@
 {
-  "output": "generated/solidity-token-erc20.",
+  "output": "generated/solidity-statemachine.",
   "chain": "localhost",
   "datasources": [
     {
       "name": "GenericToken",
-      "address": "0x0000000000000000000000000000000000000000",
+      "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
       "startBlock": 0,
-      "module": ["erc20", "pausable", "accesscontrol"]
+      "module": ["accesscontrol", "statemachinemetadata"]
     }
   ]
 }
