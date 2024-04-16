@@ -1,6 +1,6 @@
 import { Address, BigInt, ipfs, json, JSONValueKind } from '@graphprotocol/graph-ts';
-import { Account, StateMachineMetadataContract } from '../../generated/schema';
-import { StateMachineMetadata } from '../../generated/statemachinemetadata/StateMachineMetadata';
+import { Account, StateMachineMetadataContract } from '../generated/schema';
+import { StateMachineMetadata } from '../generated/statemachinemetadata/StateMachineMetadata';
 
 export function fetchStateMachine(address: Address): StateMachineMetadataContract {
   const account = new Account(address);

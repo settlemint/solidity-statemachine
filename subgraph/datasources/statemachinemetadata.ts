@@ -1,7 +1,7 @@
 import { Bytes } from '@graphprotocol/graph-ts';
-import { StateTransition } from '../../generated/schema';
-import { Transition } from '../../generated/statemachinemetadata/StateMachineMetadata';
-import { fetchStateMachine } from '../fetch/statemachinemetadata';
+import { StateTransition } from '../generated/schema';
+import { Transition } from '../generated/statemachinemetadata/StateMachineMetadata';
+import { fetchStateMachine } from '../fetch/statemachinedata';
 
 export function handleTransitions(event: Transition): void {
   const contract = fetchStateMachine(event.address);
