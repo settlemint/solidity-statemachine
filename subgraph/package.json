@@ -1,7 +1,7 @@
 {
-    "name": "solidity-supplychain",
+    "name": "solidity-statemachine",
     "version": "7.0.0",
-    "description": "Solidity Supplychain",
+    "description": "Solidity statemachine",
     "scripts": {},
     "keywords": [
       "solidity",

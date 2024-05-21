@@ -39,28 +39,18 @@ contract GenericTest is Test {
     }
 
     function testInitialState() public {
-        // Fetch the current state from the contract
         bytes32 currentState = generic.getCurrentState();
-
-        // Define the expected initial state
         bytes32 expectedState = 0x0000000000000000000000000000000000000000000000000000000000000001;
-
-        // Assert that the current state matches the expected initial state
         assertEq(currentState, expectedState, "Incorrect initial state");
     }
 
     function testRevertHistoryTransitionIfNoStateTransition() public {
-        // Expecting the transaction to revert with the specified error message
         vm.expectRevert("Index out of bounds");
-
-        // Attempt to retrieve the history at index 0
         generic.getHistory(0);
     }
 
     function testTransitionHistoryLength() public {
-        // Fetch the initial history length
         uint256 initialHistoryLength = generic.getHistoryLength();
-        // Assert that the initial history length is zero
         assertEq(
             initialHistoryLength,
             0,
@@ -69,29 +59,14 @@ contract GenericTest is Test {
     }
 
     function testTransitionHistory() public {
-        // Fetch the state information for CHANGE_HERE_STATE_ONE
         bytes32 stateOne = 0x0000000000000000000000000000000000000000000000000000000000000001;
-
-        // Get the state information
-        (, , bytes32[] memory allowedRoles, , ) = generic.getState(stateOne);
-
-        // Transition the state from CHANGE_HERE_STATE_ONE to CHANGE_HERE_STATE_TWO
         bytes32 newState = 0x0000000000000000000000000000000000000000000000000000000000000002;
+        (, , bytes32[] memory allowedRoles, , ) = generic.getState(stateOne);
         generic.transitionState(newState, allowedRoles[0]);
-
-        // Fetch the history length
         uint256 historyLength = generic.getHistoryLength();
         assertEq(historyLength, 1, "Incorrect history length");
-
-        // Fetch the history at index 0
         (bytes32 fromState, bytes32 toState, , ) = generic.getHistory(0);
-
-        // Assert that the transition history contains the expected information
-        assertEq(
-            fromState,
-            stateOne,
-            "Incorrect from state in transition history"
-        );
+        assertEq(fromState, stateOne, "Incorrect from state in transition history");
         assertEq(toState, newState, "Incorrect to state in transition history");
     }
 
@@ -104,7 +79,14 @@ contract GenericTest is Test {
         );
     }
 
-    function testAllStates() public view {
+    function assertEq(bytes32[] memory a, bytes32[] memory b, string memory message) internal {
+        require(a.length == b.length, "Array lengths do not match.");
+        for (uint i = 0; i < a.length; i++) {
+            require(a[i] == b[i], message);
+        }
+    }
+
+    function testAllStates() public {
         bytes32[] memory allStates = generic.getAllStates();
         bytes32[] memory expectedStates = new bytes32[](5);
         expectedStates[0] = bytes32(uint256(1));
@@ -113,17 +95,6 @@ contract GenericTest is Test {
         expectedStates[3] = bytes32(uint256(4));
         expectedStates[4] = bytes32(uint256(5));
 
-        console.log("Actual states:");
-        for (uint256 i = 0; i < allStates.length; i++) {
-            console.logBytes32(allStates[i]);
-        }
-
-        console.log("Expected states:");
-        for (uint256 i = 0; i < expectedStates.length; i++) {
-            console.logBytes32(expectedStates[i]);
-        }
-        // assertEq(allStates, expectedStates, "The possible states are not correct");
+        assertEq(allStates, expectedStates, "The possible states are not correct");
     }
-
-    //TO DO Complete rest of the tests + graph MW
 }
