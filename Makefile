@@ -6,9 +6,14 @@ build:
 	@echo "Building with Forge..."
 	@forge build
 
-test:
+test-forge:
 	@echo "Testing with Forge..."
 	@forge test
+
+test-hardhat:
+	@echo "Testing with Hardhat..."
+	@npx hardhat test
+
 
 format:
 	@echo "Formatting with Forge..."
