@@ -15,8 +15,8 @@ importers:
         specifier: 0.72.1
         version: 0.72.1(@types/node@20.11.25)(encoding@0.1.13)(node-fetch@2.7.0(encoding@0.1.13))(typescript@5.4.2)
       '@graphprotocol/graph-ts':
-        specifier: 0.35.0
-        version: 0.35.0
+        specifier: 0.35.1
+        version: 0.35.1
       '@openzeppelin/contracts':
         specifier: 5.0.2
         version: 5.0.2
@@ -113,8 +113,8 @@ packages:
   '@graphprotocol/graph-ts@0.26.0':
     resolution: {integrity: sha512-GW/emOJl+35MXgmIxTnUK7dJtPCaB9u5aAwoLVqJ8swogC794O92UrXMVrAJsherUriu+yI9bLMGmNPOIi60jw==}
 
-  '@graphprotocol/graph-ts@0.35.0':
-    resolution: {integrity: sha512-dM+I/e/WeBa8Q3m4ZLFfJjKBS9YwV+DLggWi8oEIGmnhPAZ298QB6H4hquvxqaOTSXJ2j9tPsw3xSmbRLwk39A==}
+  '@graphprotocol/graph-ts@0.35.1':
+    resolution: {integrity: sha512-74CfuQmf7JI76/XCC34FTkMMKeaf+3Pn0FIV3m9KNeaOJ+OI3CvjMIVRhOZdKcJxsFCBGaCCl0eQjh47xTjxKA==}
 
   '@ipld/dag-cbor@7.0.3':
     resolution: {integrity: sha512-1VVh2huHsuohdXC1bGJNE8WR72slZ9XE2T3wbBBq31dm7ZBatmKLLxrB+XAqafxfRFjv08RZmj/W/ZqaM13AuA==}
@@ -2027,7 +2027,7 @@ snapshots:
     dependencies:
       assemblyscript: 0.19.10
 
-  '@graphprotocol/graph-ts@0.35.0':
+  '@graphprotocol/graph-ts@0.35.1':
     dependencies:
       assemblyscript: 0.19.10
 
