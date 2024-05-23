@@ -40,13 +40,7 @@ deploy:
 			forge create ./src/Generic.sol:Generic $${EXTRA_ARGS} --rpc-url $${BTP_RPC_URL} --interactive --legacy --constructor-args 3073193977 "your_ipfs_hash_here" "ipfs://" | tee deployment.txt; \
 		else \
 			forge create ./src/Generic.sol:Generic $${EXTRA_ARGS} --rpc-url $${BTP_RPC_URL} --interactive --legacy --gas-price $${BTP_GAS_PRICE} --constructor-args 3073193977 "your_ipfs_hash_here" "ipfs://" | tee deployment.txt; \
-		fi; \
-	else \
-		if [ -z "$${BTP_GAS_PRICE}" ]; then \
-			forge create ./src/Generic.sol:Generic $${EXTRA_ARGS} --rpc-url $${BTP_RPC_URL} --from $${BTP_FROM} --unlocked --constructor-args 3073193977 "your_ipfs_hash_here" "ipfs://" | tee deployment.txt; \
-		else \
-			forge create ./src/Generic.sol:Generic $${EXTRA_ARGS} --rpc-url $${BTP_RPC_URL} --from $${BTP_FROM} --unlocked --gas-price $${BTP_GAS_PRICE} --legacy --constructor-args 3073193977 "your_ipfs_hash_here" "ipfs://" | tee deployment.txt; \
-		fi; \
+		fi; 
 	fi
 
 
