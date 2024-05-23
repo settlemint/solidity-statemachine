@@ -33,7 +33,7 @@ deploy-anvil:
 
 deploy:
 	@eval $$(curl -H "x-auth-token: $${BTP_SERVICE_TOKEN}" -s $${BTP_CLUSTER_MANAGER_URL}/ide/foundry/$${BTP_SCS_ID}/env | sed 's/^/export /'); \
-	if [ -z "$${ETH_FROM}" ]; then \
+	if [ -z "$${BTP_FROM}" ]; then \
 		echo "\033[1;33mWARNING: No keys are activated on the node, falling back to interactive mode...\033[0m"; \
 		echo ""; \
 		if [ -z "$${BTP_GAS_PRICE}" ]; then \
@@ -43,9 +43,9 @@ deploy:
 		fi; \
 	else \
 		if [ -z "$${BTP_GAS_PRICE}" ]; then \
-			forge create ./src/Generic.sol:Generic $${EXTRA_ARGS} --rpc-url $${BTP_RPC_URL} --unlocked --constructor-args 3073193977 "your_ipfs_hash_here" "ipfs://" | tee deployment.txt; \
+			forge create ./src/Generic.sol:Generic $${EXTRA_ARGS} --rpc-url $${BTP_RPC_URL} --from $${BTP_FROM} --unlocked --constructor-args 3073193977 "your_ipfs_hash_here" "ipfs://" | tee deployment.txt; \
 		else \
-			forge create ./src/Generic.sol:Generic $${EXTRA_ARGS} --rpc-url $${BTP_RPC_URL} --unlocked --gas-price $${BTP_GAS_PRICE} --constructor-args 3073193977 "your_ipfs_hash_here" "ipfs://" | tee deployment.txt; \
+			forge create ./src/Generic.sol:Generic $${EXTRA_ARGS} --rpc-url $${BTP_RPC_URL} --from $${BTP_FROM} --unlocked --gas-price $${BTP_GAS_PRICE} --legacy --constructor-args 3073193977 "your_ipfs_hash_here" "ipfs://" | tee deployment.txt; \
 		fi; \
 	fi
 
