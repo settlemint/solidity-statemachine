@@ -22,3 +22,6 @@ subgraph/generated
 subgraph/build
 
 .pnpm
+
+
+/node_modules
