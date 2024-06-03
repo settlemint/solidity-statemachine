@@ -38,5 +38,5 @@ jobs:
     with:
       docker-image-name: solidity-statemachine
       runs-on: solidity-statemachine
-      ignition-module: "ignition/modules/GenericModule.ts.ts"
+      ignition-module: "ignition/modules/GenericModule.ts"
       subgraph-contract-address-key: "GenericModule#Generic"
