@@ -4,7 +4,7 @@
   "datasources": [
     {
       "name": "Generic",
-      "address": "0x000000000000000000000000000000000000",
+      "address": "0x0000000000000000000000000000000000000000",
       "startBlock": 0,
       "module": ["accesscontrol", "statemachinemetadata"]
     }
