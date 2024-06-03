@@ -86,14 +86,6 @@ contract GenericStateMachineTest is Test {
         assertEq(currentState, stateMachine.STATE_TWO(), "Current state should be STATE_TWO");
     }
 
-    // function testCheckAllowedRoles() public {
-    //     bool hasRoleAdmin = stateMachine.checkAllowedRoles(stateMachine.ROLE_ADMIN());
-    //     assertTrue(hasRoleAdmin, "Admin should have ROLE_ADMIN");
-
-    //     bool hasRoleManufacturer = stateMachine.checkAllowedRoles(stateMachine.ROLE_MANUFACTURER());
-    //     assertFalse(hasRoleManufacturer, "Admin should not have ROLE_MANUFACTURER");
-    // }
-
     function testAddCallbackForState() public {
         // Test callback through state transition
         vm.prank(adminAddress);
