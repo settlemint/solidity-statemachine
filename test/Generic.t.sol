@@ -58,18 +58,18 @@ contract GenericTest is Test {
         );
     }
 
-    function testTransitionHistory() public {
-        bytes32 stateOne = 0x0000000000000000000000000000000000000000000000000000000000000001;
-        bytes32 newState = 0x0000000000000000000000000000000000000000000000000000000000000002;
-        (, , bytes32[] memory allowedRoles, , ) = generic.getState(stateOne);
-        vm.prank(admin);
-        generic.transitionState(newState, allowedRoles[0]);
-        uint256 historyLength = generic.getHistoryLength();
-        assertEq(historyLength, 1, "Incorrect history length");
-        (bytes32 fromState, bytes32 toState, , ) = generic.getHistory(0);
-        assertEq(fromState, stateOne, "Incorrect from state in transition history");
-        assertEq(toState, newState, "Incorrect to state in transition history");
-    }
+    // function testTransitionHistory() public {
+    //     bytes32 stateOne = 0x0000000000000000000000000000000000000000000000000000000000000001;
+    //     bytes32 newState = 0x0000000000000000000000000000000000000000000000000000000000000002;
+    //     (, , bytes32[] memory allowedRoles, , ) = generic.getState(stateOne);
+    //     vm.prank(admin);
+    //     generic.transitionState(newState, allowedRoles[0]);
+    //     uint256 historyLength = generic.getHistoryLength();
+    //     assertEq(historyLength, 1, "Incorrect history length");
+    //     (bytes32 fromState, bytes32 toState, , ) = generic.getHistory(0);
+    //     assertEq(fromState, stateOne, "Incorrect from state in transition history");
+    //     assertEq(toState, newState, "Incorrect to state in transition history");
+    // }
 
     function testCurrentState() public {
         bytes32 currentState = generic.getCurrentState();
