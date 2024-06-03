@@ -3,11 +3,6 @@ pragma solidity 0.8.26;
 import {StateMachineMetadata} from "./statemachine/extensions/StateMachineMetadata.sol";
 
 /**
- * Generic
- *
- * A generic package exists of
- *  - a description of the generic state machine
- *
  * @title Generic State machine implementation
  */
 
