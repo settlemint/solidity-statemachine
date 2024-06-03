@@ -13,7 +13,7 @@
         - Generic
       abis:
         - name: StateMachineMetadata
-          file: {root}/../out/StateMachineMetadata.sol/StateMachineMetadata.json
+          file: {root}/out/StateMachineMetadata.sol/StateMachineMetadata.json
       eventHandlers:
         - event: Transition(address,bytes32,bytes32)
           handler: handleTransitions
