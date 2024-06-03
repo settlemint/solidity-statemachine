@@ -39,4 +39,4 @@ jobs:
       docker-image-name: solidity-statemachine
       runs-on: solidity-statemachine
       ignition-module: "ignition/modules/GenericModule.ts"
-      subgraph-contract-address-key: "GenericModule#Generic"
+      subgraph-contract-address-key: "DeployGeneric#Generic"
