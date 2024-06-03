@@ -62,6 +62,7 @@ contract GenericTest is Test {
         bytes32 stateOne = 0x0000000000000000000000000000000000000000000000000000000000000001;
         bytes32 newState = 0x0000000000000000000000000000000000000000000000000000000000000002;
         (, , bytes32[] memory allowedRoles, , ) = generic.getState(stateOne);
+        vm.prank(admin);
         generic.transitionState(newState, allowedRoles[0]);
         uint256 historyLength = generic.getHistoryLength();
         assertEq(historyLength, 1, "Incorrect history length");
@@ -96,5 +97,69 @@ contract GenericTest is Test {
         expectedStates[4] = bytes32(uint256(5));
 
         assertEq(allStates, expectedStates, "The possible states are not correct");
+    }
+
+    // function testSetEntityURI() public {
+    //     string memory newURI = "newIPFSHash";
+    //     vm.prank(admin);
+    //     generic._setEntityURI(1, newURI);
+    //     string memory uri = generic.entityURI(1);
+    //     assertEq(uri, string(abi.encodePacked("https://baseuri/", newURI)), "Entity URI does not match expected value after update");
+    // }
+
+    function testGrantRoleToAccount() public {
+        address newAccount = address(2);
+        vm.prank(admin);
+        generic.grantRoleToAccount(generic.ROLE_ONE(), newAccount);
+        assertTrue(generic.hasRole(generic.ROLE_ONE(), newAccount), "New account does not have the expected role");
+    }
+
+    function testAddRoleForState() public {
+        vm.prank(admin);
+        generic.addRoleForState(generic.STATE_ONE(), generic.ROLE_TWO(), admin);
+        (, , bytes32[] memory allowedRoles, , ) = generic.getState(generic.STATE_ONE());
+        assertTrue(containsRole(allowedRoles, generic.ROLE_TWO()), "Role not added to the state");
+    }
+
+    function containsRole(bytes32[] memory roles, bytes32 role) internal pure returns (bool) {
+        for (uint i = 0; i < roles.length; i++) {
+            if (roles[i] == role) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function testAddAllowedFunctionForState() public {
+        bytes4 functionSelector = this.testAddAllowedFunctionForState.selector;
+        vm.prank(admin);
+        generic.addAllowedFunctionForState(generic.STATE_ONE(), functionSelector);
+        (,,, bytes4[] memory allowedFunctions,) = generic.getState(generic.STATE_ONE());
+        assertTrue(containsFunction(allowedFunctions, functionSelector), "Function not added to the state");
+    }
+
+    function containsFunction(bytes4[] memory functions, bytes4 fn) internal pure returns (bool) {
+        for (uint i = 0; i < functions.length; i++) {
+            if (functions[i] == fn) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function testAddNextStateForState() public {
+        vm.prank(admin);
+        generic.addNextStateForState(generic.STATE_ONE(), generic.STATE_THREE());
+        (, bytes32[] memory nextStates,,,) = generic.getState(generic.STATE_ONE());
+        assertTrue(containsState(nextStates, generic.STATE_THREE()), "Next state not added to the state");
+    }
+
+    function containsState(bytes32[] memory states, bytes32 state) internal pure returns (bool) {
+        for (uint i = 0; i < states.length; i++) {
+            if (states[i] == state) {
+                return true;
+            }
+        }
+        return false;
     }
 }
