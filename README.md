@@ -1,6 +1,6 @@
-# ERC20
+# Statemachine
 
-A basic ERC20 token contract.
+Example statemachine contract 
 
 ## Get started
 

@@ -1,10 +1,10 @@
 {
-  "output": "generated/solidity-statemachine.",
+  "output": "generated/scs.",
   "chain": "localhost",
   "datasources": [
     {
-      "name": "GenericToken",
-      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "name": "Generic",
+      "address": "0x000000000000000000000000000000000000",
       "startBlock": 0,
       "module": ["accesscontrol", "statemachinemetadata"]
     }

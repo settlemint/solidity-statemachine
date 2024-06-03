@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity 0.8.26;
 
 import "forge-std/Test.sol";
-import "../src/Generic.sol";
+import "../contracts/Generic.sol";
 import "forge-std/console.sol";
 
 contract GenericTest is Test {
