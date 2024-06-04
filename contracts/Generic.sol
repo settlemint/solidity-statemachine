@@ -3,7 +3,7 @@ pragma solidity 0.8.26;
 import {StateMachineMetadata} from "./statemachine/extensions/StateMachineMetadata.sol";
 
 /**
-
+*
  * @title Generic State machine implementation
  */
 
