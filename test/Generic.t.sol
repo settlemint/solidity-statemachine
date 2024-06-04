@@ -68,12 +68,14 @@ contract GenericTest is Test {
         );
     }
 
-//  function assertEq(bytes32[] memory a, bytes32[] memory b, string memory message) internal pure override {
-//     require(a.length == b.length, "Array lengths do not match.");
-//     for (uint i = 0; i < a.length; i++) {
-//         require(a[i] == b[i], message);
-//     }
-// }
+
+
+ function assertEqBytes32ArrayWithMessage(bytes32[] memory a, bytes32[] memory b, string memory message) internal pure  {
+    require(a.length == b.length, "Array lengths do not match.");
+    for (uint i = 0; i < a.length; i++) {
+        require(a[i] == b[i], message);
+    }
+}
 
 
     function testAllStates() public view {
@@ -85,7 +87,7 @@ contract GenericTest is Test {
         expectedStates[3] = bytes32(uint256(4));
         expectedStates[4] = bytes32(uint256(5));
 
-        assertEq(allStates, expectedStates, "The possible states are not correct");
+        assertEqBytes32ArrayWithMessage(allStates, expectedStates, "The possible states are not correct");
     }
 
     // function testSetEntityURI() public {
