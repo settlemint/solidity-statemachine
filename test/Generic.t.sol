@@ -14,7 +14,7 @@ contract GenericTest is Test {
         vm.label(address(generic), "GenericStateMachine");
     }
 
-    function testSupportsERC165Interface() public {
+    function testSupportsERC165Interface() public view {
         bytes4 ERC165InterfaceId = 0x01ffc9a7;
         assertTrue(
             generic.supportsInterface(ERC165InterfaceId),
@@ -22,7 +22,7 @@ contract GenericTest is Test {
         );
     }
 
-    function testEntityURI() public {
+    function testEntityURI() public  view {
         string memory expectedURI = "https://baseuri/QmTestHash";
         string memory uri = generic.entityURI(1);
         assertEq(uri, expectedURI, "Entity URI does not match expected value");
@@ -38,7 +38,7 @@ contract GenericTest is Test {
         );
     }
 
-    function testInitialState() public {
+    function testInitialState() public view {
         bytes32 currentState = generic.getCurrentState();
         bytes32 expectedState = 0x0000000000000000000000000000000000000000000000000000000000000001;
         assertEq(currentState, expectedState, "Incorrect initial state");
@@ -49,7 +49,7 @@ contract GenericTest is Test {
         generic.getHistory(0);
     }
 
-    function testTransitionHistoryLength() public {
+    function testTransitionHistoryLength() public view {
         uint256 initialHistoryLength = generic.getHistoryLength();
         assertEq(
             initialHistoryLength,
@@ -59,7 +59,7 @@ contract GenericTest is Test {
     }
 
  
-    function testCurrentState() public {
+    function testCurrentState() public view {
         bytes32 currentState = generic.getCurrentState();
         assertEq(
             currentState,
@@ -68,9 +68,15 @@ contract GenericTest is Test {
         );
     }
 
-    
+ function assertEq(bytes32[] memory a, bytes32[] memory b, string memory message) internal pure override {
+    require(a.length == b.length, "Array lengths do not match.");
+    for (uint i = 0; i < a.length; i++) {
+        require(a[i] == b[i], message);
+    }
+}
 
-    function testAllStates() public {
+
+    function testAllStates() public view {
         bytes32[] memory allStates = generic.getAllStates();
         bytes32[] memory expectedStates = new bytes32[](5);
         expectedStates[0] = bytes32(uint256(1));
