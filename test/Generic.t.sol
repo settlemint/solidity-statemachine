@@ -14,7 +14,7 @@ contract GenericTest is Test {
         vm.label(address(generic), "GenericStateMachine");
     }
 
-    function testSupportsERC165Interface() public view {
+    function testSupportsERC165Interface() public  {
         bytes4 ERC165InterfaceId = 0x01ffc9a7;
         assertTrue(
             generic.supportsInterface(ERC165InterfaceId),
@@ -22,7 +22,7 @@ contract GenericTest is Test {
         );
     }
 
-    function testEntityURI() public  view {
+    function testEntityURI() public   {
         string memory expectedURI = "https://baseuri/QmTestHash";
         string memory uri = generic.entityURI(1);
         assertEq(uri, expectedURI, "Entity URI does not match expected value");
@@ -49,7 +49,7 @@ contract GenericTest is Test {
         generic.getHistory(0);
     }
 
-    function testTransitionHistoryLength() public view {
+    function testTransitionHistoryLength() public  {
         uint256 initialHistoryLength = generic.getHistoryLength();
         assertEq(
             initialHistoryLength,
@@ -59,7 +59,7 @@ contract GenericTest is Test {
     }
 
  
-    function testCurrentState() public view {
+    function testCurrentState() public  {
         bytes32 currentState = generic.getCurrentState();
         assertEq(
             currentState,
