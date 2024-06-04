@@ -68,7 +68,7 @@ contract GenericTest is Test {
         );
     }
 
-    function assertEq(bytes32[] memory a, bytes32[] memory b, string memory message) internal {
+    function assertEq(bytes32[] memory a, bytes32[] memory b, string memory message) internal  override pure {
         require(a.length == b.length, "Array lengths do not match.");
         for (uint i = 0; i < a.length; i++) {
             require(a[i] == b[i], message);
