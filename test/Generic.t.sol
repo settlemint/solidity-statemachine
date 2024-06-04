@@ -38,7 +38,7 @@ contract GenericTest is Test {
         );
     }
 
-    function testInitialState() public view {
+    function testInitialState() public  {
         bytes32 currentState = generic.getCurrentState();
         bytes32 expectedState = 0x0000000000000000000000000000000000000000000000000000000000000001;
         assertEq(currentState, expectedState, "Incorrect initial state");
