@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.26;
+pragma solidity ^0.8.24;
 
 import "forge-std/Test.sol";
 import "../contracts/statemachine/extensions/GenericStateMachine.sol";
@@ -37,35 +37,90 @@ contract GenericStateMachineTest is Test {
     function testAllStates() public {
         bytes32[] memory states = stateMachine.getAllStates();
         assertEq(states.length, 5, "There should be 5 states");
-        assertEq(states[0], stateMachine.STATE_ONE(), "First state should be STATE_ONE");
-        assertEq(states[1], stateMachine.STATE_TWO(), "Second state should be STATE_TWO");
-        assertEq(states[2], stateMachine.STATE_THREE(), "Third state should be STATE_THREE");
-        assertEq(states[3], stateMachine.STATE_FOUR(), "Fourth state should be STATE_FOUR");
-        assertEq(states[4], stateMachine.STATE_FIVE(), "Fifth state should be STATE_FIVE");
+        assertEq(
+            states[0],
+            stateMachine.STATE_ONE(),
+            "First state should be STATE_ONE"
+        );
+        assertEq(
+            states[1],
+            stateMachine.STATE_TWO(),
+            "Second state should be STATE_TWO"
+        );
+        assertEq(
+            states[2],
+            stateMachine.STATE_THREE(),
+            "Third state should be STATE_THREE"
+        );
+        assertEq(
+            states[3],
+            stateMachine.STATE_FOUR(),
+            "Fourth state should be STATE_FOUR"
+        );
+        assertEq(
+            states[4],
+            stateMachine.STATE_FIVE(),
+            "Fifth state should be STATE_FIVE"
+        );
     }
 
     function testCurrentState() public {
         bytes32 initialState = stateMachine.getCurrentState();
-        assertEq(initialState, stateMachine.STATE_ONE(), "Initial state should be STATE_ONE");
+        assertEq(
+            initialState,
+            stateMachine.STATE_ONE(),
+            "Initial state should be STATE_ONE"
+        );
     }
 
     function testTransition() public {
         // Transition to STATE_TWO
         vm.prank(adminAddress);
-        stateMachine.transitionState(stateMachine.STATE_TWO(), stateMachine.ROLE_ONE());
+        stateMachine.transitionState(
+            stateMachine.STATE_TWO(),
+            stateMachine.ROLE_ONE()
+        );
         bytes32 currentState = stateMachine.getCurrentState();
-        assertEq(currentState, stateMachine.STATE_TWO(), "Current state should be STATE_TWO");
+        assertEq(
+            currentState,
+            stateMachine.STATE_TWO(),
+            "Current state should be STATE_TWO"
+        );
     }
 
     function testRoles() public {
         bytes32[] memory roles = stateMachine.getRoles();
         assertEq(roles.length, 6, "There should be 6 roles");
-        assertEq(roles[0], stateMachine.ROLE_ADMIN(), "First role should be ROLE_ADMIN");
-        assertEq(roles[1], stateMachine.ROLE_MANUFACTURER(), "Second role should be ROLE_MANUFACTURER");
-        assertEq(roles[2], stateMachine.ROLE_ONE(), "Third role should be ROLE_ONE");
-        assertEq(roles[3], stateMachine.ROLE_TWO(), "Fourth role should be ROLE_TWO");
-        assertEq(roles[4], stateMachine.ROLE_THREE(), "Fifth role should be ROLE_THREE");
-        assertEq(roles[5], stateMachine.ROLE_FOUR(), "Sixth role should be ROLE_FOUR");
+        assertEq(
+            roles[0],
+            stateMachine.ROLE_ADMIN(),
+            "First role should be ROLE_ADMIN"
+        );
+        assertEq(
+            roles[1],
+            stateMachine.ROLE_MANUFACTURER(),
+            "Second role should be ROLE_MANUFACTURER"
+        );
+        assertEq(
+            roles[2],
+            stateMachine.ROLE_ONE(),
+            "Third role should be ROLE_ONE"
+        );
+        assertEq(
+            roles[3],
+            stateMachine.ROLE_TWO(),
+            "Fourth role should be ROLE_TWO"
+        );
+        assertEq(
+            roles[4],
+            stateMachine.ROLE_THREE(),
+            "Fifth role should be ROLE_THREE"
+        );
+        assertEq(
+            roles[5],
+            stateMachine.ROLE_FOUR(),
+            "Sixth role should be ROLE_FOUR"
+        );
     }
 
     // function testGetState() public {
@@ -81,15 +136,25 @@ contract GenericStateMachineTest is Test {
 
     function testCheckAllTransitionCriteria() public {
         vm.prank(adminAddress);
-        stateMachine.transitionState(stateMachine.STATE_TWO(), stateMachine.ROLE_ONE());
+        stateMachine.transitionState(
+            stateMachine.STATE_TWO(),
+            stateMachine.ROLE_ONE()
+        );
         bytes32 currentState = stateMachine.getCurrentState();
-        assertEq(currentState, stateMachine.STATE_TWO(), "Current state should be STATE_TWO");
+        assertEq(
+            currentState,
+            stateMachine.STATE_TWO(),
+            "Current state should be STATE_TWO"
+        );
     }
 
     function testAddCallbackForState() public {
         // Test callback through state transition
         vm.prank(adminAddress);
-        stateMachine.transitionState(stateMachine.STATE_TWO(), stateMachine.ROLE_ONE());
+        stateMachine.transitionState(
+            stateMachine.STATE_TWO(),
+            stateMachine.ROLE_ONE()
+        );
         // The callback logic can be verified if there are specific side effects or state changes
     }
 }

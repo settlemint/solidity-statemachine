@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.26;
+pragma solidity ^0.8.24;
 
 import "forge-std/Test.sol";
 import "../contracts/Generic.sol";
@@ -14,7 +14,7 @@ contract GenericTest is Test {
         vm.label(address(generic), "GenericStateMachine");
     }
 
-    function testSupportsERC165Interface() public  {
+    function testSupportsERC165Interface() public {
         bytes4 ERC165InterfaceId = 0x01ffc9a7;
         assertTrue(
             generic.supportsInterface(ERC165InterfaceId),
@@ -22,7 +22,7 @@ contract GenericTest is Test {
         );
     }
 
-    function testEntityURI() public   {
+    function testEntityURI() public {
         string memory expectedURI = "https://baseuri/QmTestHash";
         string memory uri = generic.entityURI(1);
         assertEq(uri, expectedURI, "Entity URI does not match expected value");
@@ -38,7 +38,7 @@ contract GenericTest is Test {
         );
     }
 
-    function testInitialState() public  {
+    function testInitialState() public {
         bytes32 currentState = generic.getCurrentState();
         bytes32 expectedState = 0x0000000000000000000000000000000000000000000000000000000000000001;
         assertEq(currentState, expectedState, "Incorrect initial state");
@@ -49,7 +49,7 @@ contract GenericTest is Test {
         generic.getHistory(0);
     }
 
-    function testTransitionHistoryLength() public  {
+    function testTransitionHistoryLength() public {
         uint256 initialHistoryLength = generic.getHistoryLength();
         assertEq(
             initialHistoryLength,
@@ -58,8 +58,7 @@ contract GenericTest is Test {
         );
     }
 
- 
-    function testCurrentState() public  {
+    function testCurrentState() public {
         bytes32 currentState = generic.getCurrentState();
         assertEq(
             currentState,
@@ -68,15 +67,16 @@ contract GenericTest is Test {
         );
     }
 
-
-
- function assertEqBytes32ArrayWithMessage(bytes32[] memory a, bytes32[] memory b, string memory message) internal pure  {
-    require(a.length == b.length, "Array lengths do not match.");
-    for (uint i = 0; i < a.length; i++) {
-        require(a[i] == b[i], message);
+    function assertEqBytes32ArrayWithMessage(
+        bytes32[] memory a,
+        bytes32[] memory b,
+        string memory message
+    ) internal pure {
+        require(a.length == b.length, "Array lengths do not match.");
+        for (uint i = 0; i < a.length; i++) {
+            require(a[i] == b[i], message);
+        }
     }
-}
-
 
     function testAllStates() public view {
         bytes32[] memory allStates = generic.getAllStates();
@@ -87,7 +87,11 @@ contract GenericTest is Test {
         expectedStates[3] = bytes32(uint256(4));
         expectedStates[4] = bytes32(uint256(5));
 
-        assertEqBytes32ArrayWithMessage(allStates, expectedStates, "The possible states are not correct");
+        assertEqBytes32ArrayWithMessage(
+            allStates,
+            expectedStates,
+            "The possible states are not correct"
+        );
     }
 
     // function testSetEntityURI() public {
@@ -102,17 +106,28 @@ contract GenericTest is Test {
         address newAccount = address(2);
         vm.prank(admin);
         generic.grantRoleToAccount(generic.ROLE_ONE(), newAccount);
-        assertTrue(generic.hasRole(generic.ROLE_ONE(), newAccount), "New account does not have the expected role");
+        assertTrue(
+            generic.hasRole(generic.ROLE_ONE(), newAccount),
+            "New account does not have the expected role"
+        );
     }
 
     function testAddRoleForState() public {
         vm.prank(admin);
         generic.addRoleForState(generic.STATE_ONE(), generic.ROLE_TWO(), admin);
-        (, , bytes32[] memory allowedRoles, , ) = generic.getState(generic.STATE_ONE());
-        assertTrue(containsRole(allowedRoles, generic.ROLE_TWO()), "Role not added to the state");
+        (, , bytes32[] memory allowedRoles, , ) = generic.getState(
+            generic.STATE_ONE()
+        );
+        assertTrue(
+            containsRole(allowedRoles, generic.ROLE_TWO()),
+            "Role not added to the state"
+        );
     }
 
-    function containsRole(bytes32[] memory roles, bytes32 role) internal pure returns (bool) {
+    function containsRole(
+        bytes32[] memory roles,
+        bytes32 role
+    ) internal pure returns (bool) {
         for (uint i = 0; i < roles.length; i++) {
             if (roles[i] == role) {
                 return true;
@@ -124,12 +139,23 @@ contract GenericTest is Test {
     function testAddAllowedFunctionForState() public {
         bytes4 functionSelector = this.testAddAllowedFunctionForState.selector;
         vm.prank(admin);
-        generic.addAllowedFunctionForState(generic.STATE_ONE(), functionSelector);
-        (,,, bytes4[] memory allowedFunctions,) = generic.getState(generic.STATE_ONE());
-        assertTrue(containsFunction(allowedFunctions, functionSelector), "Function not added to the state");
+        generic.addAllowedFunctionForState(
+            generic.STATE_ONE(),
+            functionSelector
+        );
+        (, , , bytes4[] memory allowedFunctions, ) = generic.getState(
+            generic.STATE_ONE()
+        );
+        assertTrue(
+            containsFunction(allowedFunctions, functionSelector),
+            "Function not added to the state"
+        );
     }
 
-    function containsFunction(bytes4[] memory functions, bytes4 fn) internal pure returns (bool) {
+    function containsFunction(
+        bytes4[] memory functions,
+        bytes4 fn
+    ) internal pure returns (bool) {
         for (uint i = 0; i < functions.length; i++) {
             if (functions[i] == fn) {
                 return true;
@@ -140,12 +166,23 @@ contract GenericTest is Test {
 
     function testAddNextStateForState() public {
         vm.prank(admin);
-        generic.addNextStateForState(generic.STATE_ONE(), generic.STATE_THREE());
-        (, bytes32[] memory nextStates,,,) = generic.getState(generic.STATE_ONE());
-        assertTrue(containsState(nextStates, generic.STATE_THREE()), "Next state not added to the state");
+        generic.addNextStateForState(
+            generic.STATE_ONE(),
+            generic.STATE_THREE()
+        );
+        (, bytes32[] memory nextStates, , , ) = generic.getState(
+            generic.STATE_ONE()
+        );
+        assertTrue(
+            containsState(nextStates, generic.STATE_THREE()),
+            "Next state not added to the state"
+        );
     }
 
-    function containsState(bytes32[] memory states, bytes32 state) internal pure returns (bool) {
+    function containsState(
+        bytes32[] memory states,
+        bytes32 state
+    ) internal pure returns (bool) {
         for (uint i = 0; i < states.length; i++) {
             if (states[i] == state) {
                 return true;

@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.26;
+pragma solidity ^0.8.24;
 import {StateMachineMetadata} from "./statemachine/extensions/StateMachineMetadata.sol";
 
 /**
-*
+ *
  * @title Generic State machine implementation
  */
 
