@@ -146,7 +146,7 @@ abstract contract StateMachine is ERC165, AccessControl {
             uint256 timestamp
         )
     {
-        require(index >= 0 && index < history.length, "Index out of bounds");
+        require(index < history.length, "Index out of bounds");
         return (
             history[index].fromState,
             history[index].toState,
