@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {StateMachine} from "../StateMachine.sol";
+import { StateMachine } from "../StateMachine.sol";
 
 abstract contract StateMachineMetadata is StateMachine {
     // mapping for entityURIs
@@ -10,13 +10,8 @@ abstract contract StateMachineMetadata is StateMachine {
     /**
      * @dev get the attwched entityURI from an existing entityId
      */
-    function entityURI(
-        uint256 entityId
-    ) public view virtual returns (string memory) {
-        require(
-            _exists(entityId),
-            "StateMachineMetadata: URI query for nonexistent entity"
-        );
+    function entityURI(uint256 entityId) public view virtual returns (string memory) {
+        require(_exists(entityId), "StateMachineMetadata: URI query for nonexistent entity");
         string memory _entityURI = _entityURIs[entityId];
 
         // If the baseURI is empty, just return the unprefixed URI
@@ -34,14 +29,8 @@ abstract contract StateMachineMetadata is StateMachine {
      *
      * - `entityId` must exist.
      */
-    function _setEntityURI(
-        uint256 entityId,
-        string memory _entityURI
-    ) internal virtual {
-        require(
-            _exists(entityId),
-            "StateMachineMetaData: URI set of nonexistent "
-        );
+    function _setEntityURI(uint256 entityId, string memory _entityURI) internal virtual {
+        require(_exists(entityId), "StateMachineMetaData: URI set of nonexistent ");
         _entityURIs[entityId] = _entityURI;
     }
 }

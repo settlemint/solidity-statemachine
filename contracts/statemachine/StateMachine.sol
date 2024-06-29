@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
-import {ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
+import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+import { ERC165 } from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 /**
  * @title Base contract for state machines
@@ -69,7 +69,8 @@ abstract contract StateMachine is ERC165, AccessControl {
 
     /**
      * @dev Returns whether `entityId` exists.
-     **/
+     *
+     */
     function _exists(uint256 entityId) internal view virtual returns (bool) {
         return _entityId != 0 && entityId == _entityId;
     }
@@ -78,10 +79,7 @@ abstract contract StateMachine is ERC165, AccessControl {
      * @notice Modifier to ensure the statemachine was setup
      */
     modifier checkStateMachineSetup() {
-        require(
-            possibleStates.length > 0,
-            "this statemachine has not been setup yet"
-        );
+        require(possibleStates.length > 0, "this statemachine has not been setup yet");
         _;
     }
 
@@ -89,10 +87,7 @@ abstract contract StateMachine is ERC165, AccessControl {
      * @notice Modifier to secure functions for a specific state
      */
     modifier checkAllowedFunction() {
-        require(
-            states[currentState].allowedFunctions[msg.sig],
-            "this function is not allowed in this state"
-        );
+        require(states[currentState].allowedFunctions[msg.sig], "this function is not allowed in this state");
         _;
     }
 
@@ -108,19 +103,13 @@ abstract contract StateMachine is ERC165, AccessControl {
      * @notice Modifier that checks if a state already exists or not
      */
     modifier doesStateExist(bytes32 state) {
-        require(
-            states[state].hasBeenCreated,
-            "the state has not been created yet"
-        );
+        require(states[state].hasBeenCreated, "the state has not been created yet");
         _;
     }
 
-    function supportsInterface(
-        bytes4 interfaceId
-    ) public view virtual override(ERC165, AccessControl) returns (bool) {
-        return
-            interfaceId == type(StateMachine).interfaceId ||
-            super.supportsInterface(interfaceId); // ERC165, AccessControl
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, AccessControl) returns (bool) {
+        return interfaceId == type(StateMachine).interfaceId || super.supportsInterface(interfaceId); // ERC165,
+            // AccessControl
     }
 
     /**
@@ -134,25 +123,13 @@ abstract contract StateMachine is ERC165, AccessControl {
      * @notice Returns history as tuple for given index.
      * @dev Requires the index to be within the bounds of the history array
      */
-    function getHistory(
-        uint256 index
-    )
+    function getHistory(uint256 index)
         public
         view
-        returns (
-            bytes32 fromState,
-            bytes32 toState,
-            address actor,
-            uint256 timestamp
-        )
+        returns (bytes32 fromState, bytes32 toState, address actor, uint256 timestamp)
     {
         require(index < history.length, "Index out of bounds");
-        return (
-            history[index].fromState,
-            history[index].toState,
-            history[index].actor,
-            history[index].timestamp
-        );
+        return (history[index].fromState, history[index].toState, history[index].actor, history[index].timestamp);
     }
 
     /**
@@ -160,10 +137,7 @@ abstract contract StateMachine is ERC165, AccessControl {
      * @dev Requires the current state to be configured before calling this function
      */
     function getCurrentState() public view returns (bytes32 state) {
-        require(
-            states[currentState].hasBeenCreated,
-            "the initial state has not been created yet"
-        );
+        require(states[currentState].hasBeenCreated, "the initial state has not been created yet");
         return currentState;
     }
 
@@ -184,9 +158,7 @@ abstract contract StateMachine is ERC165, AccessControl {
     /**
      * @notice Returns state as tuple for give state.
      */
-    function getState(
-        bytes32 state
-    )
+    function getState(bytes32 state)
         public
         view
         returns (
@@ -199,13 +171,7 @@ abstract contract StateMachine is ERC165, AccessControl {
     {
         State storage s = states[state];
 
-        return (
-            state,
-            s.nextStates,
-            s.allowedRoles,
-            stateFunction[state],
-            s.preFunction
-        );
+        return (state, s.nextStates, s.allowedRoles, stateFunction[state], s.preFunction);
     }
 
     /**
@@ -215,24 +181,21 @@ abstract contract StateMachine is ERC165, AccessControl {
     function transitionState(
         bytes32 toState,
         bytes32 role
-    ) public checkStateMachineSetup checkTransitionCriteria(toState, role) {
+    )
+        public
+        checkStateMachineSetup
+        checkTransitionCriteria(toState, role)
+    {
         bytes32 oldState = currentState;
         currentState = toState;
 
-        function(bytes32, bytes32) internal[] storage callbacks = states[
-            oldState
-        ].callbacks;
+        function(bytes32, bytes32) internal[] storage callbacks = states[oldState].callbacks;
         for (uint256 i = 0; i < callbacks.length; i++) {
             callbacks[i](oldState, toState);
         }
 
         history.push(
-            StateTransition({
-                fromState: oldState,
-                toState: toState,
-                actor: msg.sender,
-                timestamp: block.timestamp
-            })
+            StateTransition({ fromState: oldState, toState: toState, actor: msg.sender, timestamp: block.timestamp })
         );
 
         emit Transition(msg.sender, oldState, currentState);
@@ -241,13 +204,10 @@ abstract contract StateMachine is ERC165, AccessControl {
     /**
      * @dev Abstract function to setup the state machine configuration
      */
-    function setupStateMachine(address admin) internal virtual {}
+    function setupStateMachine(address admin) internal virtual { }
 
     function createState(bytes32 stateName) internal {
-        require(
-            !states[stateName].hasBeenCreated,
-            "this state has already been created"
-        );
+        require(!states[stateName].hasBeenCreated, "this state has already been created");
         states[stateName].hasBeenCreated = true;
         possibleStates.push(stateName);
     }
@@ -257,10 +217,7 @@ abstract contract StateMachine is ERC165, AccessControl {
      * @param roleName Bytes32 name of the role to be granted
      * @param account Grant a role to a specific account
      */
-    function grantRoleToAccount(
-        bytes32 roleName,
-        address account
-    ) public hasAdminRole(msg.sender) {
+    function grantRoleToAccount(bytes32 roleName, address account) public hasAdminRole(msg.sender) {
         _grantRole(roleName, account);
     }
 
@@ -274,11 +231,12 @@ abstract contract StateMachine is ERC165, AccessControl {
         bytes32 state,
         bytes32 role,
         address account
-    ) public doesStateExist(state) hasAdminRole(msg.sender) {
-        require(
-            !states[state].allAllowedRoles[role],
-            "the role has been already added at this state"
-        );
+    )
+        public
+        doesStateExist(state)
+        hasAdminRole(msg.sender)
+    {
+        require(!states[state].allAllowedRoles[role], "the role has been already added at this state");
         states[state].allAllowedRoles[role] = true;
         states[state].allowedRoles.push(role);
         _grantRole(role, account);
@@ -292,7 +250,11 @@ abstract contract StateMachine is ERC165, AccessControl {
     function addAllowedFunctionForState(
         bytes32 state,
         bytes4 allowedFunction
-    ) public doesStateExist(state) hasAdminRole(msg.sender) {
+    )
+        public
+        doesStateExist(state)
+        hasAdminRole(msg.sender)
+    {
         if (!knownSelector[allowedFunction]) {
             knownSelector[allowedFunction] = true;
             knownSelectors.push(allowedFunction);
@@ -322,21 +284,24 @@ abstract contract StateMachine is ERC165, AccessControl {
     function _addCallbackForState(
         bytes32 state,
         function(bytes32, bytes32) internal callback
-    ) internal doesStateExist(state) {
+    )
+        internal
+        doesStateExist(state)
+    {
         states[state].callbacks.push(callback);
     }
 
     function _addPreConditionForState(
         bytes32 state,
         function(bytes32, bytes32) internal view preCondition
-    ) internal doesStateExist(state) {
+    )
+        internal
+        doesStateExist(state)
+    {
         states[state].preConditions.push(preCondition);
     }
 
-    function _setPreFunctionForState(
-        bytes32 state,
-        bytes4 functionSig
-    ) internal virtual doesStateExist(state) {
+    function _setPreFunctionForState(bytes32 state, bytes4 functionSig) internal virtual doesStateExist(state) {
         states[state].preFunction = functionSig;
     }
 
@@ -344,14 +309,8 @@ abstract contract StateMachine is ERC165, AccessControl {
      * @notice Configures the initial state of an object
      */
     function setInitialState(bytes32 initialState) internal {
-        require(
-            states[initialState].hasBeenCreated,
-            "the initial state has not been created yet"
-        );
-        require(
-            currentState == 0,
-            "Current state has already been set, you cannot reset it"
-        );
+        require(states[initialState].hasBeenCreated, "the initial state has not been created yet");
+        require(currentState == 0, "Current state has already been set, you cannot reset it");
         currentState = initialState;
         emit Transition(msg.sender, 0x00, currentState);
     }
@@ -361,37 +320,18 @@ abstract contract StateMachine is ERC165, AccessControl {
      * @dev This checks if the states exist, if the user has a role to go to the chosen next state and
      * @dev and if all the preconditions give the ok.
      */
-    function checkAllTransitionCriteria(
-        bytes32 fromState,
-        bytes32 toState,
-        bytes32 role
-    ) private view {
-        require(
-            states[fromState].hasBeenCreated,
-            "the from state has not been configured in this object"
-        );
-        require(
-            states[toState].hasBeenCreated,
-            "the to state has not been configured in this object"
-        );
-        require(
-            checkNextStates(fromState, toState),
-            "This transition is not allowed"
-        );
-        require(
-            checkAllowedRoles(role),
-            "the sender of this transaction cannot perform this transition"
-        );
+    function checkAllTransitionCriteria(bytes32 fromState, bytes32 toState, bytes32 role) private view {
+        require(states[fromState].hasBeenCreated, "the from state has not been configured in this object");
+        require(states[toState].hasBeenCreated, "the to state has not been configured in this object");
+        require(checkNextStates(fromState, toState), "This transition is not allowed");
+        require(checkAllowedRoles(role), "the sender of this transaction cannot perform this transition");
         checkPreConditions(fromState, toState);
     }
 
     /**
      * @notice Checks if it is allowed to transition between the given states
      */
-    function checkNextStates(
-        bytes32 fromState,
-        bytes32 toState
-    ) private view returns (bool hasNextState) {
+    function checkNextStates(bytes32 fromState, bytes32 toState) private view returns (bool hasNextState) {
         hasNextState = false;
         if (nextStateToState[fromState][toState]) {
             hasNextState = true;
@@ -403,12 +343,8 @@ abstract contract StateMachine is ERC165, AccessControl {
      * @notice Checks all the custom preconditions that determine if it is allowed to transition to a next state
      * @dev Make sure the preconditions require or assert their checks and have an understandable error message
      */
-    function checkPreConditions(
-        bytes32 fromState,
-        bytes32 toState
-    ) private view {
-        function(bytes32, bytes32) internal view[]
-            storage preConditions = states[toState].preConditions;
+    function checkPreConditions(bytes32 fromState, bytes32 toState) private view {
+        function(bytes32, bytes32) internal view[] storage preConditions = states[toState].preConditions;
         for (uint256 i = 0; i < preConditions.length; i++) {
             preConditions[i](fromState, toState);
         }

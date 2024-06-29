@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {StateMachineMetadata} from "./StateMachineMetadata.sol";
+import { StateMachineMetadata } from "./StateMachineMetadata.sol";
 
 /**
  * Generic
@@ -11,7 +11,6 @@ import {StateMachineMetadata} from "./StateMachineMetadata.sol";
  *
  * @title Generic State machine implementation
  */
-
 contract GenericStateMachine is StateMachineMetadata {
     bytes32 public constant STATE_ONE = "CHANGE_HERE_STATE_ONE";
     bytes32 public constant STATE_TWO = "CHANGE_HERE_STATE_TWO";
@@ -28,20 +27,9 @@ contract GenericStateMachine is StateMachineMetadata {
 
     bytes32[] public _roles;
 
-    constructor(
-        uint256 entityId,
-        string memory ipfsHash,
-        string memory baseURI
-    ) {
+    constructor(uint256 entityId, string memory ipfsHash, string memory baseURI) {
         address adminAddress = msg.sender;
-        _roles = [
-            ROLE_ADMIN,
-            ROLE_MANUFACTURER,
-            ROLE_ONE,
-            ROLE_TWO,
-            ROLE_THREE,
-            ROLE_FOUR
-        ];
+        _roles = [ROLE_ADMIN, ROLE_MANUFACTURER, ROLE_ONE, ROLE_TWO, ROLE_THREE, ROLE_FOUR];
         _grantRole(DEFAULT_ADMIN_ROLE, adminAddress);
         setupStateMachine(adminAddress);
         _entityId = entityId;
