@@ -1,6 +1,8 @@
+![OG](OG_Solidity.jpg)
+
 # Statemachine
 
-Example statemachine contract 
+Example statemachine contract.
 
 ## Get started
 
@@ -25,33 +27,33 @@ Foundry consists of:
 
 ## Documentation
 
-- https://console.settlemint.com/documentation/docs/using-platform/integrated-development-environment/
-- https://book.getfoundry.sh/
+- <https://console.settlemint.com/documentation/docs/using-platform/integrated-development-environment/>
+- <https://book.getfoundry.sh/>
 
 ## Usage
 
 ### Build
 
 ```shell
-$ forge build
+forge build
 ```
 
 ### Test
 
 ```shell
-$ forge test
+forge test
 ```
 
 ### Format
 
 ```shell
-$ forge fmt
+forge fmt
 ```
 
 ### Gas Snapshots
 
 ```shell
-$ forge snapshot
+forge snapshot
 ```
 
 ### Anvil
@@ -59,7 +61,7 @@ $ forge snapshot
 Anvil is a local development node, open a terminal in the IDE and launch anvil. You can then deploy to it using `make deploy-anvil`
 
 ```shell
-$ anvil
+anvil
 ```
 
 ### Deploy
@@ -67,31 +69,31 @@ $ anvil
 Deploy to a local anvil node:
 
 ```shell
-$ make deploy-anvil
+make deploy-anvil
 ```
 
 Deploy to the connected platform node:
 
 ```shell
-$ make deploy-btp
+make deploy-btp
 ```
 
 ### Cast
 
 ```shell
-$ cast <subcommand>
+cast <subcommand>
 ```
 
 ### Deploy your subgraph
 
 ```shell
-$ make subgraph
+make subgraph
 ```
 
 ### Help
 
 ```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+forge --help
+anvil --help
+cast --help
 ```
