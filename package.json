@@ -1,14 +1,39 @@
 {
-  "name": "solidity-statemachine",
+  "name": "@settlemint/solidity-statemachine",
+  "description": "Smart contract set to build a state machine in SettleMint",
   "version": "7.0.0",
-  "description": "Solidity Statemachine",
+  "private": false,
+  "license": "FSL-1.1-MIT",
+  "author": {
+    "name": "SettleMint",
+    "email": "support@settlemint.com",
+    "url": "https://settlemint.com"
+  },
+  "homepage": "https://github.com/settlemint/solidity-statemachine/blob/main/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/settlemint/solidity-statemachine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/settlemint/solidity-statemachine/issues",
+    "email": "support@settlemint.com"
+  },
   "keywords": [
     "solidity",
-    "subgraph"
+    "subgraph",
+    "blockchain-transformation",
+    "statemachine"
   ],
-  "author": "SettleMint <hello@settlemint.com>",
-  "license": "MIT",
-  "devDependencies": {
+  "files": [
+    "/contracts",
+    "/ignition",
+    "/lib",
+    "/subgraph",
+    "/test",
+    "/out",
+    "/artifacts"
+  ],
+  "dependencies": {
     "@amxx/graphprotocol-utils": "1.1.0",
     "@graphprotocol/graph-cli": "0.80.0",
     "@graphprotocol/graph-ts": "0.35.1",
