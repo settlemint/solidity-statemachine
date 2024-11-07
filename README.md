@@ -21,7 +21,7 @@ forge init my-project --template settlemint/solidity-statemachine
 Or if you want to use this set as a dependency of your own,
 
 ```shell
-npm install @settlemint/solidity-statemachine
+bun install @settlemint/solidity-statemachine
 ```
 
 ## DX: Foundry & Hardhat hybrid
